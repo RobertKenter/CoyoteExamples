@@ -70,6 +70,15 @@ Alveo U55C, U280, U250 and U200 are UltraScale+ devices, and the V80 is a Versal
 #### ETHZ HACC
 The [ETHZ HACC](https://github.com/fpgasystems/hacc/tree/main) is a premiere cluster for research in systems, architecture, and applications. Its hardware equipment provides the ideal environment to run Coyote examples, since users can book various compute nodes (Alveo U55C, V80, U250, U280, Instinct GPU etc.) which are connected via a high-speed (100G) network.
 
+---
+**Attention:** Currently (Nov 2026), the ETHZ HACC build and U55C servers use different CPUs which support different AVX versions. This requires to either:
+- Build the software on the U55C server. If you already build it, start with a fresh `build_sw` directory.
+- Change `Coyote/sw/CMakeLists.txt` to force the build server to use only versions supported by both by replacing
+  ``add_compile_options("-march=native")``
+  with
+  ``add_compile_options("-march=x86-64-v3")``
+---
+
 The interaction and deployment on the HACC cluster can be simplified by using the `hdev` tool. It also allows to easily program the FPGA with a Coyote bitstream and insert the driver. For this purpose, the script `util/program_hacc_local.sh` has been created:
 ```bash
 bash util/program_hacc_local.sh <path-to-bitstream> <path-to-driver-ko>
